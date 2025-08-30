@@ -216,7 +216,7 @@ Module.expectedDataFileDownloads++;
             byteArray,
             true,
             true,
-            true
+            true,
           );
           Module["removeRunDependency"]("fp " + that.name);
           this.requests[this.name] = null;
@@ -227,14 +227,14 @@ Module.expectedDataFileDownloads++;
         new DataRequest(
           files[i]["start"],
           files[i]["end"],
-          files[i]["audio"] || 0
+          files[i]["audio"] || 0,
         ).open("GET", files[i]["filename"]);
       }
       function processPackageData(arrayBuffer) {
         assert(arrayBuffer, "Loading data file failed.");
         assert(
           arrayBuffer.constructor.name === ArrayBuffer.name,
-          "bad input to processPackageData"
+          "bad input to processPackageData",
         );
         var byteArray = new Uint8Array(arrayBuffer);
         DataRequest.prototype.byteArray = byteArray;
@@ -2282,7 +2282,7 @@ function intArrayToString(array) {
             String.fromCharCode(chr) +
             ")  at offset " +
             i +
-            " not in 0x00-0xFF."
+            " not in 0x00-0xFF.",
         );
       }
       chr &= 255;
@@ -2300,7 +2300,7 @@ function ___assert_fail(condition, filename, line, func) {
         filename ? UTF8ToString(filename) : "unknown filename",
         line,
         func ? UTF8ToString(func) : "unknown function",
-      ]
+      ],
   );
 }
 function ExceptionInfo(excPtr) {
@@ -2414,7 +2414,7 @@ var PATH = {
       trailingSlash = path.substr(-1) === "/";
     path = PATH.normalizeArray(
       path.split("/").filter((p) => !!p),
-      !isAbsolute
+      !isAbsolute,
     ).join("/");
     if (!path && !isAbsolute) {
       path = ".";
@@ -2468,7 +2468,7 @@ var PATH_FS = {
     }
     resolvedPath = PATH.normalizeArray(
       resolvedPath.split("/").filter((p) => !!p),
-      !resolvedAbsolute
+      !resolvedAbsolute,
     ).join("/");
     return (resolvedAbsolute ? "/" : "") + resolvedPath || ".";
   },
@@ -2704,7 +2704,7 @@ var MEMFS = {
     var CAPACITY_DOUBLING_MAX = 1024 * 1024;
     newCapacity = Math.max(
       newCapacity,
-      (prevCapacity * (prevCapacity < CAPACITY_DOUBLING_MAX ? 2 : 1.125)) >>> 0
+      (prevCapacity * (prevCapacity < CAPACITY_DOUBLING_MAX ? 2 : 1.125)) >>> 0,
     );
     if (prevCapacity != 0) newCapacity = Math.max(newCapacity, 256);
     var oldContents = node.contents;
@@ -2722,7 +2722,7 @@ var MEMFS = {
       node.contents = new Uint8Array(newSize);
       if (oldContents) {
         node.contents.set(
-          oldContents.subarray(0, Math.min(newSize, node.usedBytes))
+          oldContents.subarray(0, Math.min(newSize, node.usedBytes)),
         );
       }
       node.usedBytes = newSize;
@@ -2902,7 +2902,7 @@ var MEMFS = {
             contents = Array.prototype.slice.call(
               contents,
               position,
-              position + length
+              position + length,
             );
           }
         }
@@ -3251,7 +3251,7 @@ var FS = {
       err(
         "warning: " +
           FS.syncFSRequests +
-          " FS.syncfs operations in flight at once, probably just doing extra work"
+          " FS.syncfs operations in flight at once, probably just doing extra work",
       );
     }
     var mounts = FS.getMounts(FS.root.mount);
@@ -3523,7 +3523,7 @@ var FS = {
     }
     return PATH_FS.resolve(
       FS.getPath(link.parent),
-      link.node_ops.readlink(link)
+      link.node_ops.readlink(link),
     );
   },
   stat: (path, dontFollow) => {
@@ -3762,7 +3762,7 @@ var FS = {
       buffer,
       offset,
       length,
-      position
+      position,
     );
     if (!seeking) stream.position += bytesRead;
     return bytesRead;
@@ -3798,7 +3798,7 @@ var FS = {
       offset,
       length,
       position,
-      canOwn
+      canOwn,
     );
     if (!seeking) stream.position += bytesWritten;
     return bytesWritten;
@@ -3944,7 +3944,7 @@ var FS = {
         },
       },
       {},
-      "/proc/self/fd"
+      "/proc/self/fd",
     );
   },
   createStandardStreams: () => {
@@ -4074,7 +4074,7 @@ var FS = {
   createFile: (parent, name, properties, canRead, canWrite) => {
     var path = PATH.join2(
       typeof parent == "string" ? parent : FS.getPath(parent),
-      name
+      name,
     );
     var mode = FS.getMode(canRead, canWrite);
     return FS.create(path, mode);
@@ -4105,7 +4105,7 @@ var FS = {
   createDevice: (parent, name, input, output) => {
     var path = PATH.join2(
       typeof parent == "string" ? parent : FS.getPath(parent),
-      name
+      name,
     );
     var mode = FS.getMode(!!input, !!output);
     if (!FS.createDevice.major) FS.createDevice.major = 64;
@@ -4160,7 +4160,7 @@ var FS = {
     if (obj.isDevice || obj.isFolder || obj.link || obj.contents) return true;
     if (typeof XMLHttpRequest != "undefined") {
       throw new Error(
-        "Lazy loading should have been performed (contents set) in createLazyFile, but it was not. Lazy loading only works in web workers. Use --embed-file or --preload-file in emcc on the main thread."
+        "Lazy loading should have been performed (contents set) in createLazyFile, but it was not. Lazy loading only works in web workers. Use --embed-file or --preload-file in emcc on the main thread.",
       );
     } else {
       throw new Error("Cannot load without read() or XMLHttpRequest.");
@@ -4203,11 +4203,11 @@ var FS = {
         var doXHR = (from, to) => {
           if (from > to)
             throw new Error(
-              "invalid range (" + from + ", " + to + ") or no bytes requested!"
+              "invalid range (" + from + ", " + to + ") or no bytes requested!",
             );
           if (to > datalength - 1)
             throw new Error(
-              "only " + datalength + " bytes available! programmer error!"
+              "only " + datalength + " bytes available! programmer error!",
             );
           var xhr = new XMLHttpRequest();
           xhr.open("GET", url, false);
@@ -4242,7 +4242,7 @@ var FS = {
           datalength = this.getter(0).length;
           chunkSize = datalength;
           out(
-            "LazyFiles on gzip forces download of the whole file when length is accessed"
+            "LazyFiles on gzip forces download of the whole file when length is accessed",
           );
         }
         this._length = datalength;
@@ -4420,7 +4420,7 @@ var FS = {
             getRequest.result,
             true,
             true,
-            true
+            true,
           );
           ok++;
           if (ok + fail == total) finish();
@@ -4666,7 +4666,7 @@ function ___syscall_getdents64(fd, dirp, count) {
                 0) >>>
               0
             : ~~+Math.ceil(
-                (tempDouble - +(~~tempDouble >>> 0)) / 4294967296
+                (tempDouble - +(~~tempDouble >>> 0)) / 4294967296,
               ) >>> 0
           : 0),
       ]),
@@ -4681,7 +4681,7 @@ function ___syscall_getdents64(fd, dirp, count) {
                 0) >>>
               0
             : ~~+Math.ceil(
-                (tempDouble - +(~~tempDouble >>> 0)) / 4294967296
+                (tempDouble - +(~~tempDouble >>> 0)) / 4294967296,
               ) >>> 0
           : 0),
       ]),
@@ -5484,7 +5484,7 @@ var _free = (Module["_free"] = function () {
 var _malloc = (Module["_malloc"] = function () {
   return (_malloc = Module["_malloc"] = Module["asm"]["xa"]).apply(
     null,
-    arguments
+    arguments,
   );
 });
 var ___cxa_is_pointer_type = (Module["___cxa_is_pointer_type"] = function () {
@@ -5739,7 +5739,7 @@ espeak_VOICE.prototype["get_age"] = espeak_VOICE.prototype.get_age =
     return _emscripten_bind_espeak_VOICE_get_age_0(self);
   };
 espeak_VOICE.prototype["set_age"] = espeak_VOICE.prototype.set_age = function (
-  arg0
+  arg0,
 ) {
   var self = this.ptr;
   if (arg0 && typeof arg0 === "object") arg0 = arg0.ptr;
@@ -5770,7 +5770,7 @@ espeak_VOICE.prototype["get_xx1"] = espeak_VOICE.prototype.get_xx1 =
     return _emscripten_bind_espeak_VOICE_get_xx1_0(self);
   };
 espeak_VOICE.prototype["set_xx1"] = espeak_VOICE.prototype.set_xx1 = function (
-  arg0
+  arg0,
 ) {
   var self = this.ptr;
   if (arg0 && typeof arg0 === "object") arg0 = arg0.ptr;
@@ -5914,7 +5914,7 @@ eSpeakNGWorker.prototype["synth_ipa_"] = eSpeakNGWorker.prototype.synth_ipa_ =
     return _emscripten_bind_eSpeakNGWorker_synth_ipa__2(
       self,
       aText,
-      virtualFileName
+      virtualFileName,
     );
   };
 eSpeakNGWorker.prototype["getSizeOfEventStruct_"] =
@@ -5941,7 +5941,7 @@ eSpeakNGWorker.prototype["set_voice"] = eSpeakNGWorker.prototype.set_voice =
         self,
         aName,
         aLang,
-        gender
+        gender,
       );
     }
     if (aVariant === undefined) {
@@ -5950,7 +5950,7 @@ eSpeakNGWorker.prototype["set_voice"] = eSpeakNGWorker.prototype.set_voice =
         aName,
         aLang,
         gender,
-        age
+        age,
       );
     }
     return _emscripten_bind_eSpeakNGWorker_set_voice_5(
@@ -5959,7 +5959,7 @@ eSpeakNGWorker.prototype["set_voice"] = eSpeakNGWorker.prototype.set_voice =
       aLang,
       gender,
       age,
-      aVariant
+      aVariant,
     );
   };
 eSpeakNGWorker.prototype["get_voices"] = eSpeakNGWorker.prototype.get_voices =
@@ -5968,7 +5968,7 @@ eSpeakNGWorker.prototype["get_voices"] = eSpeakNGWorker.prototype.get_voices =
     if (arg0 && typeof arg0 === "object") arg0 = arg0.ptr;
     return wrapPointer(
       _emscripten_bind_eSpeakNGWorker_get_voices_1(self, arg0),
-      espeak_VOICE
+      espeak_VOICE,
     );
   };
 eSpeakNGWorker.prototype["set_voices"] = eSpeakNGWorker.prototype.set_voices =
@@ -6103,7 +6103,7 @@ eSpeakNGWorker.prototype.synthesize = function (aText, aCallback) {
     for (var i = 0; i < length; i++) {
       data[i * 2] = Math.max(
         -1,
-        Math.min(1, getValue(ptr + i * 2, "i16") / 32768)
+        Math.min(1, getValue(ptr + i * 2, "i16") / 32768),
       );
       data[i * 2 + 1] = data[i * 2];
     }
